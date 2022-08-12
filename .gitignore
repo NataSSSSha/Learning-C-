@@ -1,4 +1,10 @@
+*.user
 .vs
 .idea
 obj
-bin
+[Bb]in
+[Dd]ebug
+
+
+
+
