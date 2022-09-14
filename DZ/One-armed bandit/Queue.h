@@ -14,13 +14,12 @@ public:
 
     void pop()
     {
-        if (!isEmpty())
-        {
-            char temp = queue.GetFirst();
-            queue.RemoveFirst();
-            queue.Add(temp);
-        }
-        else return;
+        if (isEmpty())
+            return;
+
+        char temp = queue.GetFirst();
+        queue.RemoveFirst();
+        queue.Add(temp);
     }
 
     Item* top()

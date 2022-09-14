@@ -36,69 +36,66 @@ void DList::Insert(int index, int value, int prior)
 {
     Item* temp = new Item;
     temp->value = value;
-    if (!IsEmpty() && index >= 0 && index <= size)
+
+    if (IsEmpty() && index < 0 && index > size)
     {
-        if (index == 0)
+        cout << "OutOfRange" << endl;
+        return;
+    }
+
+    if (index == 0)
+    {
+        temp->pNext = head;
+        head->pPrev = temp;
+        head = temp;
+        size++;
+
+        return;
+    }
+
+    if (index == size)
+    {
+        temp->pPrev = tail;
+        tail->pNext = temp;
+        tail = temp;
+        size++;
+
+        return;
+    }
+
+    int i;
+    Item* ptemp = nullptr;
+
+    if (index < (size / 2))
+    {
+        i = 0;
+        ptemp = head;
+        while (ptemp != nullptr)
         {
-            temp->pNext = head;
-            head->pPrev = temp;
-            head = temp;
-            size++;
-        }
-        else
-        {
-            if (index == size)
-            {
-                temp->pPrev = tail;
-                tail->pNext = temp;
-                tail = temp;
-                size++;
-            }
-            else
-            {
-                int i;
-                Item* ptemp;
-                if (index < (size / 2))
-                {
-                    i = 0;
-                    ptemp = head;
-                    while (ptemp != nullptr)
-                    {
-                        if (i == index)
-                        {
-                            break;
-                        }
-                        ptemp = ptemp->pNext;
-                        i++;
-                    }
-                }
-                else
-                {
-                    i = size - 1;
-                    ptemp = tail;
-                    while (ptemp != nullptr)
-                    {
-                        if (i == index - 1)
-                        {
-                            break;
-                        }
-                        ptemp = ptemp->pPrev;
-                        i--;
-                    }
-                }
-                temp->pPrev = ptemp;
-                temp->pNext = ptemp->pNext;
-                ptemp->pNext->pPrev = temp;
-                ptemp->pNext = temp;
-                size++;
-                return;
-            }
+            if (i == index)
+                break;
+            ptemp = ptemp->pNext;
+            i++;
         }
     }
     else
     {
-        cout << "OutOfRange" << endl;
+        i = size - 1;
+        ptemp = tail;
+        while (ptemp != nullptr)
+        {
+            if (i == index - 1)
+                break;
+            ptemp = ptemp->pPrev;
+            i--;
+        }
     }
+
+    temp->pPrev = ptemp;
+    temp->pNext = ptemp->pNext;
+    ptemp->pNext->pPrev = temp;
+    ptemp->pNext = temp;
+    size++;
 }
 
 void DList::RemoveFirst()
@@ -149,38 +146,39 @@ void DList::RemoveLast()
 
 int& DList::Get(int index)
 {
-    if (index >= 0 && index < size)
-    {
-        int i;
-        Item* ptemp;
-        if (index <= (size / 2))
-        {
-            i = 0;
-            ptemp = head;
-            while (ptemp != nullptr)
-            {
-                if (i == index)
-                    return ptemp->value;
-                ptemp = ptemp->pNext;
-                i++;
-            }
-        }
-        else
-        {
-            i = size - 1;
-            ptemp = tail;
-            while (ptemp != nullptr)
-            {
-                if (i == index)
-                    return ptemp->value;
-                ptemp = ptemp->pPrev;
-                i--;
-            }
-        }
-    }
-    else
+    if (index < 0 && index > size)
     {
         cout << "OutOfRange" << endl;
+        return;
+    }
+
+    int i;
+    Item* ptemp;
+
+    if (index <= (size / 2))
+    {
+        i = 0;
+        ptemp = head;
+        while (ptemp != nullptr)
+        {
+            if (i == index)
+                return ptemp->value;
+            ptemp = ptemp->pNext;
+            i++;
+        }
+    }
+
+    else
+    {
+        i = size - 1;
+        ptemp = tail;
+        while (ptemp != nullptr)
+        {
+            if (i == index)
+                return ptemp->value;
+            ptemp = ptemp->pPrev;
+            i--;
+        }
     }
 }
 
